@@ -36,7 +36,7 @@
 
 	<scm>
 		<connection>scm:git:git://github.com/ejahns/selenium-stateful.git</connection>
-		<developerConnection>scm:git:ssh://github.com:ejahns/seleneium-stateful.git</developerConnection>
+		<developerConnection>scm:git:ssh://github.com:ejahns/selenium-stateful.git</developerConnection>
 		<url>https://github.com/ejahns/selenium-stateful/tree/master</url>
 		<tag>HEAD</tag>
 	</scm>
