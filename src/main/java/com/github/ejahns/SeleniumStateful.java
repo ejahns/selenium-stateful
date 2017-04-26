@@ -6,7 +6,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonSerializer;
 
 public abstract class SeleniumStateful implements SearchContext {
 
@@ -18,6 +21,15 @@ public abstract class SeleniumStateful implements SearchContext {
 
 	public JsonElement toJsonElement() {
 		return GsonWrapper.seleniumStatefultoJsonElement(this);
+	}
+
+	public boolean isEquivalent(Object o) {
+		return toJsonElement().equals(GsonWrapper.toJsonElement(o));
+	}
+
+	public <S, T extends JsonSerializer<S>> boolean isEquivalent(S s, T t) {
+		Gson gson = new GsonBuilder().registerTypeAdapter(s.getClass(), t).create();
+		return toJsonElement().equals(gson.toJsonTree(s));
 	}
 
 	/**
