@@ -6,10 +6,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface State {
+@Target(ElementType.FIELD)
+public @interface StateSelector {
 
 	String key() default "";
 
-	boolean ordered() default false;
+	Purpose purpose() default Purpose.METHOD;
+
+	Class<? extends WebElementFunction> function() default WebElementTextFunction.class;
+
+	enum Purpose {
+		METHOD,
+		PRESENCE,
+	}
 }
