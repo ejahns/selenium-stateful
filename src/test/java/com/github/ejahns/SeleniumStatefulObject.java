@@ -12,17 +12,17 @@ public class SeleniumStatefulObject extends SeleniumStateful {
 		super(context);
 	}
 
-	@State(key = "number")
+	@State(value = "number")
 	private int getNumber() {
 		return 314;
 	}
 
-	@State(key = "list")
+	@State(value = "list")
 	private List getList() {
 		return ImmutableList.of("One", "Two", "Three", "Four");
 	}
 
-	@State(key = "text")
+	@State(value = "text")
 	private String getText() {
 		return "Some Text";
 	}

@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface StateSelector {
 
-	String key() default "";
+	String value() default "";
 
 	Purpose purpose() default Purpose.METHOD;
 

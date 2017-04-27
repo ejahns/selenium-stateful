@@ -9,7 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface State {
 
-	String key() default "";
-
-	boolean ordered() default false;
+	String value() default "";
 }

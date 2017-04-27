@@ -47,7 +47,7 @@ public class SeleniumStatefulSerializer implements JsonSerializer<SeleniumStatef
 			m.setAccessible(true);
 			State annotation = m.getAnnotation(State.class);
 			Object value = m.invoke(seleniumStateful);
-			String key = annotation.key().equals("") ? m.toString() : annotation.key();
+			String key = annotation.value().equals("") ? m.getName() : annotation.value();
 			obj.add(key, context.serialize(value));
 		}
 	}
@@ -96,7 +96,7 @@ public class SeleniumStatefulSerializer implements JsonSerializer<SeleniumStatef
 			else {
 				throw new IllegalStateException();
 			}
-			String key = annotation.key().equals("") ? f.toString() : annotation.key();
+			String key = annotation.value().equals("") ? f.getName() : annotation.value();
 			obj.add(key, context.serialize(value));
 		}
 	}
