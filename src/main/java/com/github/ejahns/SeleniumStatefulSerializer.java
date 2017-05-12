@@ -62,8 +62,9 @@ public class SeleniumStatefulSerializer implements JsonSerializer<SeleniumStatef
 			f.setAccessible(true);
 			Serializable value = null;
 			StateSelector annotation = f.getAnnotation(StateSelector.class);
+			String key = annotation.value().equals("") ? f.getName() : annotation.value();
 			WebElementFunction webElementFunction = annotation.function().newInstance();
-			Object fCast = f.get(this);
+			Object fCast = f.get(seleniumStateful);
 			if (fCast instanceof By) {
 				By cast = (By) fCast;
 				List<WebElement> elements = seleniumStateful.findElements(cast);
@@ -88,16 +89,21 @@ public class SeleniumStatefulSerializer implements JsonSerializer<SeleniumStatef
 						throw new IllegalStateException();
 					}
 					results.add(webElementFunction.apply((WebElement) o));
+					return;
 				}
 				if (results instanceof Serializable) {
 					value = (Serializable) results;
 				}
 			}
+			if (null != value) {
+				obj.add(key, context.serialize(value));
+			}
+			else if (fCast instanceof SeleniumStateful) {
+				obj.add(key, context.serialize(fCast));
+			}
 			else {
 				throw new IllegalStateException();
 			}
-			String key = annotation.value().equals("") ? f.getName() : annotation.value();
-			obj.add(key, context.serialize(value));
 		}
 	}
 
@@ -119,18 +125,17 @@ public class SeleniumStatefulSerializer implements JsonSerializer<SeleniumStatef
 	}
 
 	private Collection<Field> getStateAnnotatedFields(SeleniumStateful seleniumStateful) {
-		Field[] declaredFields = seleniumStateful.getClass().getDeclaredFields();
-		Field[] fields = seleniumStateful.getClass().getFields();
 		Set<Field> set = new HashSet<>();
-		for (Field f : declaredFields) {
-			if (f.isAnnotationPresent(StateSelector.class)) {
-				set.add(f);
+		Class clazz;
+		clazz = seleniumStateful.getClass();
+		while (!clazz.equals(SeleniumStateful.class)) {
+			Field[] declaredFields = clazz.getDeclaredFields();
+			for (Field f : declaredFields) {
+				if (f.isAnnotationPresent(StateSelector.class)) {
+					set.add(f);
+				}
 			}
-		}
-		for (Field f : fields) {
-			if (f.isAnnotationPresent(StateSelector.class)) {
-				set.add(f);
-			}
+			clazz = clazz.getSuperclass();
 		}
 		return set;
 	}
