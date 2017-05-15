@@ -1,11 +1,14 @@
 package com.github.ejahns;
 
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
+import com.google.common.collect.MapDifference;
+import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -30,6 +33,16 @@ public abstract class SeleniumStateful implements SearchContext {
 	public <S, T extends JsonSerializer<S>> boolean isEquivalent(S s, T t) {
 		Gson gson = new GsonBuilder().registerTypeAdapter(s.getClass(), t).create();
 		return toJsonElement().equals(gson.toJsonTree(s));
+	}
+
+	public MapDifference compare(Object o) {
+		Map left = toMap();
+		Map right = GsonWrapper.toMap(o);
+		return Maps.difference(left, right);
+	}
+
+	private Map toMap() {
+		return GsonWrapper.seleniumStatefulToMap(this);
 	}
 
 	/**
