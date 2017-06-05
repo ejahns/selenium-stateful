@@ -6,7 +6,7 @@
 
 	<groupId>com.github.ejahns</groupId>
 	<artifactId>selenium-stateful</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<packaging>jar</packaging>
 
 	<name>${project.groupId}:${project.artifactId}</name>
@@ -30,7 +30,7 @@
 			<name>Ethan C Jahns</name>
 			<email>ethanjahns@gmail.com</email>
 			<organization>Ethan C Jahns</organization>
-			<organizationUrl>https://github.com/ejahns/</organizationUrl>
+			<organizationUrl>https://github.com/ejahns</organizationUrl>
 		</developer>
 	</developers>
 

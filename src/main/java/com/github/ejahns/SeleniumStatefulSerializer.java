@@ -31,7 +31,7 @@ public class SeleniumStatefulSerializer implements JsonSerializer<SeleniumStatef
 			mapMethodsToState(seleniumStateful, obj, jsonSerializationContext, getStateAnnotatedMethods(seleniumStateful));
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		seleniumStateful.afterStateObtained();
 		return obj;
